@@ -11,6 +11,32 @@
     <title>To-do</title>
     <style>
         #reminders .alert { border-radius: 0; }
+        .card h6 { font-weight: bold; }
+        .card-body { padding: 0.5rem; }
+
+        .col-lg-8r {
+            position: relative;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-8r {
+                flex: 0 0 12.5%;
+                max-width: 12.5%;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .col-xl-1 {
+                -webkit-box-flex: 0;
+                flex: 0 0 8.333333%;
+                max-width: 8.333333%;
+            }
+        }
+
+
     </style>
   </head>
   <body>
@@ -38,65 +64,61 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+    </div>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-            Remind me
-        </button>
+    <div class="container-fluid">
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                     ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Remind me later</button>
-                        <button type="button" class="btn btn-primary">Mark as done</button>
+        <div class="row">
+
+            <div class="col-xl-1 col-lg-8r col-md-2 col-sm-4 col-6">
+                <div class="card">
+                    <img class="card-img-top" src="the_complete_robot.jpg" alt="">
+                    <div class="card-body">
+                        <h6>The Complete Robot</h6>
+                        <a href="#" class="card-link">Isaac Asimov</a>
                     </div>
                 </div>
             </div>
+
+            <div class="col-xl-1 col-lg-8r col-md-2 col-sm-4 col-6">
+                <div class="card">
+                    <img class="card-img-top" src="foundation.jpg" alt="">
+                    <div class="card-body">
+                        <h6>Foundation</h6>
+                        <a href="#" class="card-link">Isaac Asimov</a>
+                        <br>
+                        <a href="#" class="card-link">Original Foundation (#1)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-1 col-lg-8r col-md-2 col-sm-4 col-6">
+                <div class="card">
+                    <img class="card-img-top" src="foundation_and_empire.jpg" alt="">
+                    <div class="card-body">
+                        <h6>Foundation and Empire</h6>
+                        <a href="#" class="card-link">Isaac Asimov</a>
+                        <br>
+                        <a href="#" class="card-link">Original Foundation (#2)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-1 col-lg-8r col-md-2 col-sm-4 col-6">
+                <div class="card">
+                    <img class="card-img-top" src="second_foundation.jpg" alt="">
+                    <div class="card-body">
+                        <h6>Second Foundation</h6>
+                        <a href="#" class="card-link">Isaac Asimov</a>
+                        <br>
+                        <a href="#" class="card-link">Original Foundation (#3)</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
-
-
-    <pre>
-        To-do:
-            * General
-                -> Make new landing page
-                -> Decide what to put there
-                -> Login system
-                -> Activity tracking
-                -> Make menu change color
-            * Books
-                -> Convert to Bootstrap styling
-                -> Add read start and end
-                -> Fix bol.com api
-                -> Add books reads overview
-            * Notes
-                -> Convert to Bootstrap styling
-            * Money
-                -> Create database tables
-                -> Add new payment list option
-                -> Add add payment
-                -> Mark as settled button
-            * Lists
-                -> Split from notes
-                -> Convert to Bootstrap styling
-            * Reminders
-                -> Create database
-                -> Add periodic notifications (via browser)
-                -> Remind me later
-                -> Mark as done
-    </pre>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

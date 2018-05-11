@@ -39,9 +39,17 @@
                                 <td>Coffee order 19/02/2018</td>
                                 <td>€55</td>
                             </tr>
+                            <tr class="plus">
+                                <td>Artichokes Puerta del Sol</td>
+                                <td>€3,80</td>
+                            </tr>
+                            <tr class="minus">
+                                <td>Coffeegrinder buy-out</td>
+                                <td>€25</td>
+                            </tr>
                             <tr>
                                 <td>TOTAL</td>
-                                <td>€55</td>
+                                <td>€33,80</td>
                             </tr>
                         </tbody>
                     </table>
