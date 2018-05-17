@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="open-iconic-master/font/css/open-iconic-bootstrap.css">
-    <title>To-do</title>
+    <title>Boeken</title>
     <style>
         #reminders .alert { border-radius: 0; }
         .card h6 { font-weight: bold; }
