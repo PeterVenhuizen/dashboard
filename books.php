@@ -47,12 +47,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#"><span class="oi oi-home" title="home" aria-hidden="true"></span> Home</a>
-                <a class="nav-item nav-link" href="#"><span class="oi oi-book" title="book" aria-hidden="true"></span> Books</a>
+                <a class="nav-item nav-link" href="index.html"><span class="oi oi-home" title="home" aria-hidden="true"></span> Home</a>
+                <a class="nav-item nav-link" href="books.php"><span class="oi oi-book" title="book" aria-hidden="true"></span> Books</a>
                 <a class="nav-item nav-link" href="#"><span class="oi oi-layers" title="layers" aria-hidden="true"></span> Notes</a>
                 <a class="nav-item nav-link" href="#"><span class="oi oi-list" title="list" aria-hidden="true"></span> Lists</a>
-                <a class="nav-item nav-link" href="#"><span class="oi oi-euro" title="euro" aria-hidden="true"></span> Money</a>
+                <a class="nav-item nav-link" href="money.php"><span class="oi oi-euro" title="euro" aria-hidden="true"></span> Money</a>
                 <a class="nav-item nav-link" href="#"><span class="oi oi-bell" title="bell" aria-hidden="true"></span> Reminders</a>
+                <a class="nav-item nav-link" href="learn.php"><span class="oi oi-wrench" title="wrench" aria-hidden="true"></span> Learn</a>
             </div>
         </div>
     </nav>
