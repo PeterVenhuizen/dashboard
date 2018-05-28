@@ -29,7 +29,7 @@
 
                     $list_id = $_GET['list_id'];
                     $switch = isset($_GET['switch']) ? 'true' : 'false';
-                    $mode = isset($_GET['mode']) ? $_GET['mode'] : 'flipcard';
+                    $mode = (isset($_GET['mode']) && !empty($_GET['mode'])) ? $_GET['mode'] : 'flipcard';
 
                     if ($mode == "write") {
 
@@ -41,7 +41,7 @@
                                         <div class="card-body word" done="false">
 
                                             <h2>Word here</h2>
-                                            <input type="text" class="form-control" id="">
+                                            <input type="text" class="form-control" id="" autofocus>
 
                                         </div>
                                         <div class="card-footer">
