@@ -33,7 +33,44 @@
 
                     if ($mode == "write") {
 
+                        echo '  <div class="col-sm-6 mx-auto">
+                                    <div class="card text-center writecard">
+                                        <div class="card-header">
+                                            <span id="words_left">10/22</span>
+                                        </div>
+                                        <div class="card-body word" done="false">
+
+                                            <h2>Word here</h2>
+                                            <input type="text" class="form-control" id="">
+
+                                        </div>
+                                        <div class="card-footer">
+                                            <!--<button type="button" class="btn btn-dark float-left">
+                                                Completed <span class="badge badge-light">10/22</span>
+                                            </button>-->
+                                            <button type="button" class="btn btn-primary float-left">Check</button>
+                                            <button type="button" class="btn btn-light float-right" disabled>Next <span class="oi oi-arrow-right" title="arrow-right" aria-hidden="true"></span></button>
+                                        </div>
+                                    </div>
+                                </div>';
+
                     } else if ($mode == "flipcard") {
+
+                        echo '  <div class="col-sm-4 mx-auto">
+                                    <div class="card text-center flipcard">
+                                        <div class="card-header">
+                                            <span id="words_left"></span>
+                                        </div>
+                                        <div class="card-body word" done="false">
+                                            <h2 class="question">Word</h2>
+                                            <h3 class="answer">Translation</h3>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="button" class="btn btn-danger float-left">Wrong :(</button>
+                                            <button type="button" class="btn btn-success float-right">Correct :)</button>
+                                        </div>
+                                    </div>
+                                </div>';
 
                     }
 
@@ -53,6 +90,14 @@
         -->
         <script src="bootstrap4-offline-docs-master/assets/js/vendor/popper.min.js"></script>
         <script src="bootstrap4-offline-docs-master/dist/js/bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                var n_words = $('.word').length,
+                    q_done = $('.word[done="true"]').length;
+                $('.card-header').children('#words_left').html(q_done + '/' + n_words);
+            });
+        </script>
 
     </body>
 </html>
