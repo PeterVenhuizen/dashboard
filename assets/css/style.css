@@ -1,1 +1,12 @@
 #reminders .alert { border-radius: 0; }
+
+/* QUIZ */
+.correct_answer { display: none; }
+.question { display: none; }
+.active { display: block; }
+.correct_answer { display: none; }
+#test_result { 
+    display: none;
+    clear: both; 
+}
+#save_test_result { margin-top: 0.8em; }
