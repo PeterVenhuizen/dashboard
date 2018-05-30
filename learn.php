@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Learn</title>
     <style>
-
+        .iwt { display: inline-block; }
     </style>
   </head>
   <body>
@@ -23,26 +23,40 @@
 
         <div class="container-fluid">
 
+            <div class="row">
+
             <?php
 
                 $word_lists = mysql_query("SELECT *, (SELECT COUNT(*) FROM words WHERE list_id = word_lists.list_id) AS n_words, (SELECT ROUND(sum(correct)/(sum(correct)+sum(incorrect))*100) FROM words WHERE words.list_id = word_lists.list_id) AS test_rate FROM word_lists");
                 while ($l = mysql_fetch_array($word_lists)) {
 
-                    echo '  <div class="card">
-                                <div class="card-header">' . $l['list_name'] . ' (' . $l['n_words'] . ')</div>
-                                <div class="card-body">
-                                    <div class="list_test_rate" num="' . $l['test_rate'] . '"></div>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="list.php?list_id=' . $l['list_id'] . '"><span class="oi oi-eye" title="eye" aria-hidden="true"></span> View</a>
-                                    <a href="list.php?list_id=' . $l['list_id'] . '&action=edit"><span class="oi oi-pencil" title="pencil" aria-hidden="true"></span> Edit</a>
-                                    <a href="quiz.php?list_id=' . $l['list_id'] . '"><span class="oi oi-list" title="list" aria-hidden="true"></span> Test</a>
+                    echo '  <div class="col-sm-4 col-md-3 col-lg-2 mt-4">
+                                <div class="card text-center">
+                                    <div class="card-header">' . $l['list_name'] . ' (' . $l['n_words'] . ')</div>
+                                    <div class="card-body">
+                                        <div class="list_test_rate" num="' . $l['test_rate'] . '"></div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <span class="iwt mr-2"><a href="list.php?list_id=' . $l['list_id'] . '"><span class="oi oi-eye" title="eye" aria-hidden="true"></span> View</a></span>
+                                        <span class="iwt mr-2"><a href="list.php?list_id=' . $l['list_id'] . '&action=edit"><span class="oi oi-pencil" title="pencil" aria-hidden="true"></span> Edit</a></span>
+                                        <span class="iwt mr-2"><a href="quiz.php?list_id=' . $l['list_id'] . '"><span class="oi oi-list" title="list" aria-hidden="true"></span> Test</a></span>
+                                    </div>
                                 </div>
                             </div>';
 
                 }
 
             ?>
+
+                <div class="col-sm-4 col-md-3 col-lg-2 mt-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h1><a href="list.php?action=new"><span class="oi oi-plus" title="plus" aria-hidden="true"></span><br>Create a new list</a></h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 

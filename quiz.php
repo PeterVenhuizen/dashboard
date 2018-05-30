@@ -58,7 +58,7 @@
 
                                                         <h2>' . $q['question'] . '</h2>
                                                         <input type="text" class="form-control answer" id="">
-                                                        <span class="correct_answer">' . $q['answer'] . '</span>
+                                                        <span class="correct_answer" onclick="responsiveVoice.speak(\'' . $q['answer'] . '\');">' . $q['answer'] . '</span>
 
                                                     </div>';
                                                
@@ -73,7 +73,7 @@
                                                         <input type="hidden" name="last_tested[]" class="last_tested" value="">
 
                                                         <h2>' . $q['question'] . '</h2>
-                                                        <h3 class="correct_answer">' . $q['answer'] . '</h3>
+                                                        <h3 class="correct_answer" onclick="responsiveVoice.speak(\'' . $q['answer'] . '\');">' . $q['answer'] . '</h3>
                                                     </div>';
 
 
@@ -142,6 +142,7 @@
         <script src="bootstrap4-offline-docs-master/assets/js/vendor/popper.min.js"></script>
         <script src="bootstrap4-offline-docs-master/dist/js/bootstrap.min.js"></script>
 
+        <script src="assets/js/responsivevoice.js"></script>
         <script src="assets/js/quiz.js"></script>
 
     </body>

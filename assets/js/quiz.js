@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    responsiveVoice.setDefaultVoice("Russian Female");
+
     var random = Math.floor(Math.random() * $('.question[done="false"]').length);
     $('.question[done="false"').eq(random).addClass('active');
 
@@ -92,7 +94,7 @@ $(document).ready(function() {
 
     // Display flipcard answer
     $('.flipcard').click(function() {
-        $(this).find('.correct_answer').toggle();
+        $(this).find('.correct_answer').show();
     });
 
     $('#btn_wrong').click(function(e) {

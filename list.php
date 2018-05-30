@@ -63,8 +63,26 @@
                         $action = mysql_real_escape_string($_GET['action']);
                         if ($action == "edit") {
                             
-                            echo '  <form action="" method="POST" id="list" class="form-inline">
-                                        <input type="hidden" id="list_id" name="list_id" value="' . $list_id . '">';
+                            echo '  <form action="" method="POST" id="list">
+                                        <input type="hidden" id="list_id" name="list_id" value="' . $list_id . '">
+                                        <div class="form-group row">
+                                            <label for="list_name" class="col-sm-3 col-lg-2 col-form-label">List name</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" id="list_name" name="list_name" class="form-control" value="' . $list_info['list_name'] . '">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="question_lang" class="col-sm-3 col-lg-2 col-form-label">Question language</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" id="question_lang" name="question_lang" class="form-control" value="' . $list_info['q_lang'] . '">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="answer_lang" class="col-sm-3 col-lg-2 col-form-label">Answer language</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" id="answer_lang" name="answer_lang" class="form-control" value="' . $list_info['a_lang'] . '">
+                                            </div>
+                                        </div>';
 
                             $query = "SELECT * FROM words WHERE list_id = :list_id";
                             try {
@@ -73,7 +91,7 @@
                                 $stmt->execute();
                             } catch(PDOException $ex) {}
                             foreach ($stmt as $w) {
-                                echo '  <div class="form-row">
+                                echo '  <div class="form-row form-inline">
                                             <div class="form-group">
                                                 <div class="col">
                                                     <input type="hidden" name="id[]" class="id" value="' . $w['id'] . '">
@@ -90,7 +108,7 @@
                             
                             echo '  
                                         <button type="button" class="btn btn-primary" id="add_field"><span class="oi oi-plus" title="plus" aria-hidden="true"></span></button>
-                                        <a href="list.php?list_id=' . $list_id . '&action=delete" class="btn btn-danger" role="button"><span class="oi oi-trash" title="trash" aria-hidden="true"></span></a>
+                                        <button type="button" id="delete_list" class="btn btn-danger" list_id="' . $list_id . '"><span class="oi oi-trash" title="trash" aria-hidden="true"></span></button>
                                         <input type="submit" name="edit_list" id="edit_list" class="btn btn-success" value="SAVE">
                                     </form>';
                             
@@ -121,27 +139,90 @@
                                     </table>';
                             
                             echo '  <a href="list.php?list_id=' . $list_id . '&action=edit" class="btn btn-primary" role="button"><span class="oi oi-pencil" title="pencil" aria-hidden="true"></span></a>';
-                            echo '  <a href="list.php?list_id=' . $list_id . '&action=delete" class="btn btn-danger" role="button"><span class="oi oi-trash" title="trash" aria-hidden="true"></span></a>';
+                            echo '  <button type="button" id="delete_list" class="btn btn-danger" list_id="' . $list_id . '"><span class="oi oi-trash" title="trash" aria-hidden="true"></span></button>';
                         }
                         
                     }
                     
                 } else if (isset($_GET['action'])) { // Add new
-                    
+
+                   echo '  <form action="" method="POST" id="list">
+                                <div class="form-group row">
+                                    <label for="list_name" class="col-sm-3 col-lg-2 col-form-label">List name</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="list_name" name="list_name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="question_lang" class="col-sm-3 col-lg-2 col-form-label">Question language</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="question_lang" name="question_lang" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="answer_lang" class="col-sm-3 col-lg-2 col-form-label">Answer language</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" id="answer_lang" name="answer_lang" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-row form-inline">
+                                    <div class="form-group">
+                                        <div class="col">
+                                            <input type="hidden" name="id[]" class="id">
+                                            <input type="text" name="question[]" class="form-control input_question">
+                                        </div>
+                                        <div class="col"><span class="oi oi-arrow-right" title="arrow-right" aria-hidden="true"></span></div>
+                                        <div class="col">
+                                            <input type="text" name="answer[]" class="form-control input_answer">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="add_field"><span class="oi oi-plus" title="plus" aria-hidden="true"></span></button>
+                                <input type="submit" name="add_list" id="add_list" class="btn btn-success" value="SAVE">
+                            </form>';
+
                 }
-            
-                if (isset($_POST['edit_list'])) {
+
+                if (isset($_POST["add_list"])) {
+                    
+                    # Add word list
+                    $list_name = mysql_real_escape_string($_POST['list_name']);
+                    $q_lang = mysql_real_escape_string($_POST['question_lang']);
+                    $a_lang = mysql_real_escape_string($_POST['answer_lang']);
+                    $query = "INSERT INTO word_lists (list_name, q_lang, a_lang) VALUES (:list_name, :q_lang, :a_lang)";
+                    $query_params = array(':list_name' => $list_name, ':q_lang' => $q_lang, ':a_lang' => $a_lang);
+                    
+                    try {
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                    } catch(PDOException $ex) { }
+                    
+                    # Get newly create word list id
+                    $list_id = $mysqli->query("SELECT list_id FROM word_lists WHERE list_name = '$list_name'")->fetch_object()->list_id;
+                    
+                    # Add words
+                    $query = "INSERT INTO words (list_id, question, answer, last_tested) VALUES (:list_id, :question, :answer, :last_tested)";
+                    $zipped = array_map(null, $_POST["question"], $_POST["answer"]);
+                    foreach($zipped as $tuple) {
+                        try {
+                            $stmt = $db->prepare($query);
+                            $stmt->execute(array(':list_id' => $list_id, ':question' => $tuple[0], ':answer' => $tuple[1], ':last_tested' => time()));
+                        } catch(PDOException $ex) { }  
+                    }
+                    
+                    header("Location: index.php");
+                    die();
+
+                } else if (isset($_POST['edit_list'])) {
 
 					# Update list information
 					$list_id = mysql_real_escape_string($_POST['list_id']);
 					$list_name = mysql_real_escape_string($_POST['list_name']);
-					//$q_lang = mysql_real_escape_string($_POST['question_lang']);
-					//$a_lang = mysql_real_escape_string($_POST['answer_lang']);
+					$q_lang = mysql_real_escape_string($_POST['question_lang']);
+					$a_lang = mysql_real_escape_string($_POST['answer_lang']);
                     $last_tested = time();
-					$query = "UPDATE word_lists SET list_name=:list_name, last_tested=:last_tested WHERE list_id = :list_id";
-                    $query_params = array(':list_name' => $list_name, ':list_id' => $list_id);
-                    //$query = "UPDATE word_lists SET list_name=:list_name, q_lang=:q_lang, a_lang=:a_lang, last_tested=:last_tested WHERE list_id = :list_id";
-					//$query_params = array(':list_name' => $list_name, ':q_lang' => $q_lang, ':a_lang' => $a_lang, ':list_id' => $list_id);
+                    $query = "UPDATE word_lists SET list_name=:list_name, q_lang=:q_lang, a_lang=:a_lang WHERE list_id = :list_id";
+					$query_params = array(':list_name' => $list_name, ':q_lang' => $q_lang, ':a_lang' => $a_lang, ':list_id' => $list_id);
 					
 					try {
 						$stmt = $db->prepare($query);
@@ -213,7 +294,7 @@
                 
                 // Add fields
                 function add_word_field() {
-                    $('.form-row:last').after(' <div class="form-row"> \
+                    $('.form-row:last').after(' <div class="form-row form-inline"> \
                             <div class="form-group"> \
                                 <div class="col"> \
                                     <input type="hidden" name="id[]" class="id"> \
@@ -224,17 +305,6 @@
                                 <div class="col"><span class="oi oi-trash" title="trash" aria-hidden="true"></span></div> \
                             </div> \
                         </div>');
-                    /*$(' <div class="form-row"> \
-                            <div class="form-group"> \
-                                <div class="col"> \
-                                    <input type="hidden" name="id[]" class="id"> \
-                                    <input type="text" name="question[]" class="form-control input_question"> \
-                                </div> \
-                                <div class="col"><span class="oi oi-arrow-right" title="arrow-right" aria-hidden="true"></span></div> \
-                                <div class="col"><input type="text" name="answer[]" class="form-control input_answer"></div> \
-                                <div class="col"><span class="oi oi-trash" title="trash" aria-hidden="true"></span></div> \
-                            </div> \
-                        </div>').insertAfter($('.form-row:last'));*/
                 }
                 
                 $(document).on("keypress", function(e) {
@@ -275,13 +345,22 @@
 
                 });
                 
-                // Delete word --- CHECK THIS
+                // Delete word
                 $('.delete_word').click(function(e) {
                     e.preventDefault();
                     if (confirm("Delete this question?")) {
                         var word_id = $(this).attr('word_id');
                         $.post("assets/ajax/delete_word.php", { word_id: word_id });
                         $(this).parent().remove();
+                    }
+                });
+
+                // Delete list
+                $('#delete_list').click(function(e) {
+                    if (confirm("Delete the list?")) {
+                        e.preventDefault();
+                        var list_id = $(this).attr('list_id');
+                        $.post("assets/ajax/delete_list.php", { list_id: list_id });
                     }
                 });
                 
