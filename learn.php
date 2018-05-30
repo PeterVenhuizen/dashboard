@@ -36,7 +36,7 @@
                                 <div class="card-footer">
                                     <a href="list.php?list_id=' . $l['list_id'] . '"><span class="oi oi-eye" title="eye" aria-hidden="true"></span> View</a>
                                     <a href="list.php?list_id=' . $l['list_id'] . '&action=edit"><span class="oi oi-pencil" title="pencil" aria-hidden="true"></span> Edit</a>
-                                    <a href=""><span class="oi oi-list" title="list" aria-hidden="true"></span> Test</a>
+                                    <a href="quiz.php?list_id=' . $l['list_id'] . '"><span class="oi oi-list" title="list" aria-hidden="true"></span> Test</a>
                                 </div>
                             </div>';
 

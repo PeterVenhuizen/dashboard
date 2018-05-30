@@ -1,6 +1,6 @@
 <!doctype html>
 
-<?php //require_once("assets/config.php"); ?>
+<?php require_once("assets/config.php"); ?>
 
 <html lang="en">
     <head>
@@ -28,110 +28,83 @@
                     $switch = isset($_GET['switch']) ? 'true' : 'false';
                     $mode = (in_array($_GET['mode'], array("write", "flipcard"))) ? $_GET['mode'] : "flipcard";
 
-                    echo '  <form action="" method="POST" id="">
-                                <div class="col-sm-6 col-lg-4 mx-auto">
-                                    <div class="card text-center">
-                                        <div class="card-header">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><span id="questions_left"></span></div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">';
+                    $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY RAND()";
+                    try {
+                        $stmt = $db->prepare($query);
+                        $stmt->bindValue(':list_id', mysql_real_escape_string($list_id), PDO::PARAM_STR);
+                        $stmt->execute();
+                    } catch (PDOException $ex) {}
+                    if ($stmt->rowCount() > 0) {
 
-                    if ($mode == "write") {
-
-                            echo '          <div class="question" done="false">
-
-                                                <input type="hidden" name="word_id[]" value="">
-                                                <input type="hidden" name="correct[]" class="correct" value="">
-                                                <input type="hidden" name="incorrect[]" class="incorrect" value="">
-                                                <input type="hidden" name="last_tested[]" class="last_tested" value="">
-
-                                                <h2>Q1</h2>
-                                                <input type="text" class="form-control answer" id="">
-                                                <span class="correct_answer">A1</span>
-
-                                            </div>
-                                            <div class="question" done="false">
-
-                                                <input type="hidden" name="word_id[]" value="">
-                                                <input type="hidden" name="correct[]" class="correct" value="">
-                                                <input type="hidden" name="incorrect[]" class="incorrect" value="">
-                                                <input type="hidden" name="last_tested[]" class="last_tested" value="">
-
-                                                <h2>Q2</h2>
-                                                <input type="text" class="form-control answer" id="">
-                                                <span class="correct_answer">A2</span>
-
-                                            </div>
-                                            <div class="question" done="false">
-
-                                                <input type="hidden" name="word_id[]" value="">
-                                                <input type="hidden" name="correct[]" class="correct" value="">
-                                                <input type="hidden" name="incorrect[]" class="incorrect" value="">
-                                                <input type="hidden" name="last_tested[]" class="last_tested" value="">
-
-                                                <h2>Q3</h2>
-                                                <input type="text" class="form-control answer" id="">
-                                                <span class="correct_answer">A3</span>
-
-                                            </div>
-                                        </div>
-                                        <div class="card-footer">
-                                            <button type="button" class="btn btn-primary float-left" id="check_answer">Check</button>
-                                            <button type="button" class="btn btn-light float-right" id="next_question" disabled>Next <span class="oi oi-arrow-right" title="arrow-right" aria-hidden="true"></span></button>';
-
-                    } else if ($mode == "flipcard") {
-
-                            echo '          <div class="flipcard question" done="false">
-
-                                                <input type="hidden" name="word_id[]" value="">
-                                                <input type="hidden" name="correct[]" class="correct" value="">
-                                                <input type="hidden" name="incorrect[]" class="incorrect" value="">
-                                                <input type="hidden" name="last_tested[]" class="last_tested" value="">
-
-                                                <h2>Q1</h2>
-                                                <h3 class="correct_answer">Translation</h3>
-                                            </div>
-                                            <div class="flipcard question" done="false">
-
-                                                <input type="hidden" name="word_id[]" value="">
-                                                <input type="hidden" name="correct[]" class="correct" value="">
-                                                <input type="hidden" name="incorrect[]" class="incorrect" value="">
-                                                <input type="hidden" name="last_tested[]" class="last_tested" value="">
-
-                                                <h2>Q2</h2>
-                                                <h3 class="correct_answer">Translation</h3>
-                                            </div>
-                                            <div class="flipcard question" done="false">
-
-                                                <input type="hidden" name="word_id[]" value="">
-                                                <input type="hidden" name="correct[]" class="correct" value="">
-                                                <input type="hidden" name="incorrect[]" class="incorrect" value="">
-                                                <input type="hidden" name="last_tested[]" class="last_tested" value="">
-
-                                                <h2>Q3</h2>
-                                                <h3 class="correct_answer">Translation</h3>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer">
-                                            <button type="button" class="btn btn-danger float-left" id="btn_wrong">Wrong :(</button>
-                                            <button type="button" class="btn btn-success float-right" id="btn_correct">Correct :)</button>';
-
-                    }
-
-                        echo '              <div id="test_result">
-                                                <h4 id="test_percentage"></h4>
+                        echo '  <form action="" method="POST" id="">
+                                    <div class="col-sm-6 col-lg-4 mx-auto">
+                                        <div class="card text-center">
+                                            <div class="card-header">
                                                 <div class="progress">
-                                                    <div id="bar_correct" class="progress-bar progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    <div id="bar_incorrect" class="progress-bar progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><span id="questions_left"></span></div>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary float-right" name="save_test_result" id="save_test_result">Save</button>
+                                            </div>
+                                            <div class="card-body">';
+
+                        foreach ($stmt as $q) {
+                            if ($mode == "write") {
+
+                                    echo '          <div class="question" done="false">
+
+                                                        <input type="hidden" name="word_id[]" value="' . $q['id'] . '">
+                                                        <input type="hidden" name="correct[]" class="correct" value="' . $q['correct'] . '">
+                                                        <input type="hidden" name="incorrect[]" class="incorrect" value="' . $q['incorrect'] . '">
+                                                        <input type="hidden" name="last_tested[]" class="last_tested" value="">
+
+                                                        <h2>' . $q['question'] . '</h2>
+                                                        <input type="text" class="form-control answer" id="">
+                                                        <span class="correct_answer">' . $q['answer'] . '</span>
+
+                                                    </div>';
+                                               
+
+                            } else if ($mode == "flipcard") {
+
+                                    echo '          <div class="flipcard question" done="false">
+
+                                                        <input type="hidden" name="word_id[]" value="' . $q['id'] . '">
+                                                        <input type="hidden" name="correct[]" class="correct" value="' . $q['correct'] . '">
+                                                        <input type="hidden" name="incorrect[]" class="incorrect" value="' . $q['incorrect'] . '">
+                                                        <input type="hidden" name="last_tested[]" class="last_tested" value="">
+
+                                                        <h2>' . $q['question'] . '</h2>
+                                                        <h3 class="correct_answer">' . $q['answer'] . '</h3>
+                                                    </div>';
+
+
+                            }
+                        }
+
+                            if ($mode == "write") {
+                                echo '  </div>
+                                            <div class="card-footer">
+                                                <button type="button" class="btn btn-primary float-left" id="check_answer">Check</button>
+                                                <button type="button" class="btn btn-light float-right" id="next_question" disabled>Next <span class="oi oi-arrow-right" title="arrow-right" aria-hidden="true"></span></button>';
+                            } else if ($mode == "flipcard") {
+                                echo '  </div>
+                                            <div class="card-footer">
+                                                <button type="button" class="btn btn-danger float-left" id="btn_wrong">Wrong :(</button>
+                                                <button type="button" class="btn btn-success float-right" id="btn_correct">Correct :)</button>';
+                            }
+                                echo '          <div id="test_result">
+                                                    <h4 id="test_percentage"></h4>
+                                                    <div class="progress">
+                                                        <div id="bar_correct" class="progress-bar progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div id="bar_incorrect" class="progress-bar progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary float-right" name="save_test_result" id="save_test_result">Save</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>';
+                                </form>';
+
+                    }
 
 
                     if (isset($_POST['save_test_result'])) {
