@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     responsiveVoice.setDefaultVoice("Russian Female");
-
+    
     var random = Math.floor(Math.random() * $('.question[done="false"]').length);
     $('.question[done="false"').eq(random).addClass('active');
 
@@ -132,6 +132,7 @@ $(document).ready(function() {
             $('#bar_incorrect').attr('aria-valuenow', (100-test_perc)).css('width', (100-test_perc) + '%');
 
             // Display "test report" and save button
+            //$('#save_test_result').prop('disabled', false);
             $('#test_result').show();
 
         } else {
