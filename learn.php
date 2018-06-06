@@ -21,7 +21,7 @@
   <body>
         <?php include('header.php'); ?>
 
-        <div class="container-fluid">
+        <div class="container">
 
             <div class="row">
 
@@ -57,6 +57,32 @@
                 </div>
 
             </div>
+            
+            <form>
+                <h3>Test options</h3>
+                <div class="form-group row">
+                    <label for="test_type" class="col-sm-2 col-form-label">Test type</label>
+                    <select class="form-control col-sm-2" id="test_type">
+                        <option value="flipcard" <?php if (isset($_COOKIE['test_type']) && $_COOKIE['test_type'] == "flipcard") { echo "SELECTED"; } ?> >Flipcard</option>
+                        <option value="write" <?php if (isset($_COOKIE['test_type']) && $_COOKIE['test_type'] == "write") { echo "SELECTED"; } ?> >Write</option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label for="n_questions" class="col-sm-2 col-form-label">Questions per test (<span id="n_questions_val"><?php if (isset($_COOKIE['n_questions'])) { echo $_COOKIE['n_questions']; } ?></span>)</label>
+                    <input type="range" id="n_questions" min="5" max="100" step="5" value="<?php if (isset($_COOKIE['n_questions'])) { echo $_COOKIE['n_questions']; } else { echo "20"; } ?>" class="col-sm-2">
+                </div>
+                <div class="form-group row">
+                    <label for="word_selection" class="col-sm-2 col-form-label">Test type</label>
+                    <select class="form-control col-sm-2" id="word_selection">
+                        <option value="weakest" <?php if (isset($_COOKIE['word_selection']) && $_COOKIE['word_selection'] == "weakest") { echo "SELECTED"; } ?> >Weakest</option>
+                        <option value="strongest" <?php if (isset($_COOKIE['word_selection']) && $_COOKIE['word_selection'] == "strongest") { echo "SELECTED"; } ?> >Strongest</option>
+                        <option value="oldest" <?php if (isset($_COOKIE['word_selection']) && $_COOKIE['word_selection'] == "oldest") { echo "SELECTED"; } ?> >Oldest</option>
+                        <option value="freshest" <?php if (isset($_COOKIE['word_selection']) && $_COOKIE['word_selection'] == "freshest") { echo "SELECTED"; } ?> >Freshest</option>
+                        <option value="random" <?php if (isset($_COOKIE['word_selection']) && $_COOKIE['word_selection'] == "random") { echo "SELECTED"; } ?> >Random</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" name="save_test_cookie" id="save_test_cookie">Save</button>
+            </form>
 
         </div>
 
@@ -79,6 +105,38 @@
                 if (perc <= 33) { donut_color = "#DB2929"; }
                 else if (perc > 33 && perc <= 67) { donut_color = "#FFA500"; }
                 $(this).append(createPie("", "100px", "white", 1, [perc], [donut_color], perc));
+            });
+            
+    
+            // Cookie function - Used to set alignment selection
+            function setCookie(cname, cvalue, ex) {
+                var d = new Date();
+                d.setTime(d.getTime() + (ex*24*60*60*1000));
+                var expires = "expires="+d.toGMTString();
+                document.cookie = cname + "=" + cvalue + "; " + expires + "; " + "path=localhost/dashboard/;";
+            }
+
+            // Display n_questions selection value
+            $(document).on('change', '#n_questions', function() {
+                var N = $(this).val();
+                console.log(N);
+                $('#n_questions_val').text(N);
+            });
+
+            // Set test cookie
+            $(document).on('click', '#save_test_cookie', function(e) {
+                e.preventDefault();
+                var N = $('#n_questions').val(),
+                    test_type = $('#test_type').val(),
+                    word_selection = $('#word_selection').val();
+                setCookie('n_questions', N, 7);
+                setCookie('test_type', test_type, 7);
+                setCookie('word_selection', word_selection, 7);
+                $('#set_test_cookie').hide();
+            });
+
+            $('#settings').click(function() { 
+                $('#set_test_cookie').toggle(); 
             });
         </script>
 

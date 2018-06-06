@@ -18,7 +18,7 @@
     <body>
         <?php include('header.php'); ?>
 
-        <div class="container-fluid">
+        <div class="container">
 
             <?php
 
@@ -26,14 +26,28 @@
 
                     $list_id = $_GET['list_id'];
                     $switch = isset($_GET['switch']) ? 'true' : 'false';
-                    $mode = (in_array($_GET['mode'], array("write", "flipcard"))) ? $_GET['mode'] : "flipcard";
-
-                    $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY RAND()";
+                    $mode = (isset($_COOKIE['test_type'])) ? $_COOKIE['test_type'] : "flipcard";
+                    $N = isset($_COOKIE['n_questions']) ? $_COOKIE['n_questions'] : "20";
+                    $word_order = isset($_COOKIE['word_selection']) ? $_COOKIE['word_selection'] : "random";
+                    
+                    if ($word_order == "weakest") {
+                        $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY (incorrect-correct) DESC LIMIT :N";
+                    } else if ($word_order == "strongest") {
+                        $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY (incorrect-correct) ASC LIMIT :N";
+                    } else if ($word_order == "freshest") {
+                        $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY last_tested DESC LIMIT :N";
+                    } else if ($word_order == "oldest") {
+                        $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY last_tested ASC LIMIT :N";
+                    } else {
+                        $query = "SELECT * FROM words WHERE list_id = :list_id ORDER BY RAND() LIMIT :N";
+                    }
+                    $query_params = array(":list_id" => $list_id, ":N" => $N);
                     try {
                         $stmt = $db->prepare($query);
-                        $stmt->bindValue(':list_id', mysql_real_escape_string($list_id), PDO::PARAM_STR);
+                        $stmt->bindValue(':list_id', $list_id, PDO::PARAM_STR);
+                        $stmt->bindValue(':N', (int) $N, PDO::PARAM_INT);
                         $stmt->execute();
-                    } catch (PDOException $ex) {}
+                    } catch (PDOException $ex) { }
                     if ($stmt->rowCount() > 0) {
 
                         echo '  <form action="" method="POST" id="">
