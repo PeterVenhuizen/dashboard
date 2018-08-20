@@ -80,6 +80,18 @@
                 </div>
             </div>
 
+            <nav aria-label="Wiki pagination">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+
+            <div id="summernote"></div>
+
         </div>
 
         <!-- Optional JavaScript -->
@@ -92,6 +104,13 @@
         -->
         <script src="bootstrap4-offline-docs-master/assets/js/vendor/popper.min.js"></script>
         <script src="bootstrap4-offline-docs-master/dist/js/bootstrap.min.js"></script>
+        <link href="summernote-master/dist/summernote-bs4.css" rel="stylesheet">
+        <script src="summernote-master/dist/summernote-bs4.js"></script>
+        <script>
+            $('#summernote').summernote({
+                height: 200
+            });
+        </script>
 
     </body>
 </html>
