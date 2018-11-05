@@ -9,10 +9,10 @@
                         <a class="nav-item nav-link" href="index.php"><span class="oi oi-home" title="home" aria-hidden="true"></span> Home</a>
                         <a class="nav-item nav-link" href="books.php"><span class="oi oi-book" title="book" aria-hidden="true"></span> Books</a>
                         <a class="nav-item nav-link" href="wiki.php"><span class="oi oi-layers" title="layers" aria-hidden="true"></span> Wiki</a>
-                        <a class="nav-item nav-link" href="#"><span class="oi oi-list" title="list" aria-hidden="true"></span> Lists</a>
+                        <a class="nav-item nav-link" href="todo.php"><span class="oi oi-task" title="task" aria-hidden="true"></span> To-do</a>
                         <a class="nav-item nav-link" href="money.php"><span class="oi oi-euro" title="euro" aria-hidden="true"></span> Money</a>
                         <a class="nav-item nav-link" href="#"><span class="oi oi-bell" title="bell" aria-hidden="true"></span> Reminders</a>
-                        <a class="nav-item nav-link" href="learn.php"><span class="oi oi-info" title="info" aria-hidden="true"></span> Learn</a>
+                        <!--<a class="nav-item nav-link" href="learn.php"><span class="oi oi-info" title="info" aria-hidden="true"></span> Learn</a>-->
                     </div>
                 </div>
             </div>
