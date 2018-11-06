@@ -20,6 +20,12 @@
             #todo-overview .list-group-item {
                 padding: .75rem .5rem;
             }
+            .new-stuff {
+                padding: .75rem .5rem;
+            }
+
+            .input-group-addon:hover { color: royalblue; }
+
         </style>
     </head>
     <body>
@@ -40,59 +46,21 @@
                                 }
                             }
                         ?>
+                        <li class="list-group-item new-stuff">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="oi oi-check" title="Save" aria-hidden="true"></span></span>
+                                <input type="text" class="form-control">
+                            </div>
+                        </li>
                         <li class="list-group-item add-stuff"><span class="oi oi-plus"></span> Create to-do list</li>
                     </ul>
                 </div>
-                <div class="col-sm-8 col-md-8 col-lg-9" id="todo-content">
-                    
-                    <!--<div id="list-header" list-id="1">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h2>General things</h2>
-                            <small class="text-muted text-right">Created on 05-11-2018</small>
-                        </div>
-                        <span id="done-count">2</span>/<span id="total-count">4</span> done
-                    </div>
-                    
-                    <ul class="list-group list-group-flush">
-                        <div class="list-group-item d-flex align-items-center list-group-item-action" item-id="a">
-                            <span class="oi mr-3 not-done"></span>
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-0">Vestibulum efficitur</h5>
-                                <small class="text-muted text-right">31-10-2018</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center" item-id="b">
-                            <span class="oi mr-3 not-done"></span>
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-0">Pellentesque pharetra nec sem volutpat rutrum.</h5>
-                                <small class="text-muted text-right">Three days ago</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center" item-id="c">
-                            <span class="oi mr-3 not-done"></span>
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h5>
-                                <small class="text-muted">Yesterday</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center" item-id="d">
-                            <span class="oi mr-3 not-done"></span>
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-0">ac mollis eros felis at magna.</h5>
-                                <small class="text-muted">Today</small>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center add-stuff">
-                            <span class="oi oi-plus mr-3"></span>
-                            <h5 class="mb-0">Add new</h5>
-                        </div>
-                    </ul>-->
-
-                </div>
+                <div class="col-sm-8 col-md-8 col-lg-9" id="todo-content"></div>
             </div>
-        </div>
 
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum efficitur, diam vel maximus finibus, dolor dui efficitur dolor, ac mollis eros felis at magna. In eu ex laoreet, elementum purus id, vulputate mi. Duis vestibulum scelerisque urna, sit amet placerat lorem sagittis a. Fusce dignissim nisi viverra orci pretium sagittis. Proin convallis ligula nunc, nec efficitur velit maximus non. Aenean euismod volutpat justo eget tempor. Nulla nisi ante, ultricies at rhoncus at, pharetra elementum libero. Curabitur magna leo, malesuada nec porta sed, sodales in ex. Cras efficitur enim ut convallis dictum. Donec vel ante quam. Sed a neque placerat, efficitur massa ac, sagittis eros. Vestibulum eleifend auctor sem faucibus consectetur. Quisque viverra ipsum quis sagittis maximus. Pellentesque pharetra nec sem volutpat rutrum. Donec vel justo eget ex porta molestie. Curabitur pretium nisi nisi, sit amet maximus sem lacinia sed.</p>
+            
+        </div>
         
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -109,8 +77,11 @@
             $(document).on('click', '#todo-overview .list-group-item', function() {
                 if ($(this).hasClass('add-stuff')) {
                     // Create a new to-do list
+
                 } else {
                     var list_id = $(this).attr('list-id');
+                    $('#todo-overview .list-group-item').removeClass('active');
+                    $(this).addClass('active');
                     $.post("assets/ajax/todo_load.php", { list_id: list_id }).done(function(data) {
                         $('#todo-content').html(data); 
                     });
@@ -123,20 +94,20 @@
                 var list_id = $('#list-header').attr('list-id'),
                     item_id = $(this).attr('item-id');
                 
-                if ($(this).hasClass('add-stuff')) {
+                if ($(this).hasClass('add-stuff') && $('#todo-content .new-stuff').length < 1) {
                     // Add new todo thing
                     var add_stuff = '<div class="list-group-item new-stuff">\
                                         <div class="input-group">\
                                             <span class="input-group-addon"><span class="oi oi-check title="Save" aria-hidden="true"></span></span>\
-                                            <input type="text" class="form-control">\
+                                            <input type="text" class="form-control" autofocus="autofocus">\
                                         </div>\
                                     </div>';
                     $('#todo-content .add-stuff').before(add_stuff);
-                } else if ($(this).hasClass('add-stuff')) {
+                } else if ($(this).hasClass('add-stuff') || $(this).hasClass('new-stuff')) {
                     // Do nothing
                 } else {
                     // Toggle done/not done
-                    $(this).find('h5').toggleClass('done');
+                    $(this).find('h6').toggleClass('done');
                     $(this).find('span').toggleClass('not-done');
                     $(this).find('span').toggleClass('oi-circle-check');
                 }
@@ -144,13 +115,30 @@
                 $.post("assets/ajax/todo_done.php", { item_id: item_id });
                 
                 // Update "done" counter
-                $('#done-count').html($('h5.done').length);
+                $('#done-count').html($('h6.done').length);
                 
             });
             
             // Save new to-do
-            
-            // Delete to-do list
+            $(document).on('click', '#todo-content .input-group-addon', function() {
+                var to_do = $(this).siblings('.form-control').val(),
+                    list_id = $('#list-header').attr('list-id');
+
+                if (to_do.length > 0) {
+
+                    // Add to DB
+                    $.post("assets/ajax/todo_insert.php", { list_id: list_id, desc: to_do }).done(function(data) {
+                        $('#todo-content .list-group-item:first').before(data);
+                    });
+
+                    // Update list total numbers
+                    $('#total-count').html($('#todo-content .list-group-item').length-1);
+
+                    // Remove input
+                    $('#todo-content .new-stuff').remove();
+
+                }
+            });
             
         </script>
     </body>

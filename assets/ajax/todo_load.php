@@ -1,36 +1,7 @@
 <?php
-    # http://stackoverflow.com/questions/1416697/converting-timestamp-to-time-ago-in-php-e-g-1-day-ago-2-days-ago
-    function time_elapsed_string($datetime, $full = false) {
-	    date_default_timezone_set('Europe/Amsterdam');
-        $now = new DateTime();
-        $ago = new DateTime($datetime, new DateTimeZone('CET'));
-        $diff = $now->diff($ago);
-
-        $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
-
-        $string = array(
-            'y' => 'year',
-            'm' => 'month',
-            'w' => 'week',
-            'd' => 'day',
-            'h' => 'hour',
-            'i' => 'minute',
-            's' => 'second',
-        );
-        foreach ($string as $k => &$v) {
-            if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-            } else {
-                unset($string[$k]);
-            }
-        }
-
-        if (!$full) $string = array_slice($string, 0, 1);
-        return $string ? implode(', ', $string) . ' ago' : 'just now';
-    }
 
 	require_once('../config.php');
+    require_once('../../functions.php');
 	if (isset($_POST['list_id'])) {
 		$list_id = mysql_real_escape_string($_POST['list_id']);	
         
@@ -45,7 +16,7 @@
         $done_count = 0;
         
 		try {
-            $stmt = $db->prepare("SELECT * FROM todo_items WHERE list_id = :list_id ORDER BY done");
+            $stmt = $db->prepare("SELECT * FROM todo_items WHERE list_id = :list_id ORDER BY added_on DESC");
             $stmt->execute(array(':list_id' => $list_id));
 		} catch (PDOException $ex) { }
         if ($stmt->rowCount() > 0) {
@@ -58,7 +29,7 @@
                 $list_body .= '<div class="list-group-item d-flex align-items-center list-group-item-action" item-id="' . $row['item_id'] . '">
                             <span class="oi mr-3 ' . ($row['done'] ? 'oi-circle-check' : 'not-done') . '"></span>
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-0 ' . ($row['done'] ? 'done' : '') . '">' . $row['description'] . '</h5>
+                                <h6 class="mb-0 ' . ($row['done'] ? 'done' : '') . '">' . $row['description'] . '</h6>
                                 <small class="text-muted text-right">' . time_elapsed_string($row['added_on']) . '</small>
                             </div>
                         </div>';
@@ -69,7 +40,7 @@
         
         $list_body .= '<div class="list-group-item d-flex align-items-center add-stuff">
                 <span class="oi oi-plus mr-3"></span>
-                <h5 class="mb-0">Add new</h5>
+                <h6 class="mb-0">Add new</h6>
             </div>
         </ul>';
             
