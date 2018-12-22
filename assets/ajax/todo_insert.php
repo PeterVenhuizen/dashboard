@@ -15,11 +15,12 @@
 
         date_default_timezone_set('Europe/Amsterdam');
 		$now = new DateTime();
+        // See if $now->date or $now->format('Y-m-d H:i:s') works on mijndomein
         echo '<div class="list-group-item d-flex align-items-center list-group-item-action" item-id="' . $next_id . '">
         		<span class="oi mr-3 not-done"></span>
         		<div class="d-flex w-100 justify-content-between">
         			<h6 class="mb-0">' . $desc . '</h6>
-        			<small class="text-muted text-right">' . time_elapsed_string($now->date) . '</h6>
+        			<small class="text-muted text-right">' . time_elapsed_string($now->format('Y-m-d H:i:s')) . '</h6>
         		</div>
         	</div>';
 

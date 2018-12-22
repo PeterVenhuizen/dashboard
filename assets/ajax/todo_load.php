@@ -50,6 +50,7 @@
                         <small class="text-muted text-right">Created ' . time_elapsed_string($list_info['list_creation']) . '</small>
                     </div>
                     <span id="done-count">' . $done_count . '</span>/<span id="total-count">' . $total_count . '</span> done
+                    <span class="oi oi-trash float-right"></span>
                 </div>';
         
         echo $list_header . ' ' . $list_body;
