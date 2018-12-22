@@ -1,5 +1,6 @@
-        <!-- https://useiconic.com/open/ -->
-        <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+<?php require_once('functions.php'); ?>
+
+        <nav class="navbar navbar-expand-sm navbar-light" style="background-color: <?php echo $colors[array_rand($colors)]; ?>;">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -8,7 +9,7 @@
                     <div class="navbar-nav text-center">
                         <a class="nav-item nav-link" href="index.php"><span class="oi oi-home" title="home" aria-hidden="true"></span> Home</a>
                         <a class="nav-item nav-link" href="books.php"><span class="oi oi-book" title="book" aria-hidden="true"></span> Books</a>
-                        <a class="nav-item nav-link" href="wiki.php"><span class="oi oi-layers" title="layers" aria-hidden="true"></span> Wiki</a>
+                        <a class="nav-item nav-link" href="notes.php"><span class="oi oi-layers" title="notes" aria-hidden="true"></span> Notes</a>
                         <a class="nav-item nav-link" href="todo.php"><span class="oi oi-task" title="task" aria-hidden="true"></span> To-do</a>
                         <a class="nav-item nav-link" href="money.php"><span class="oi oi-euro" title="euro" aria-hidden="true"></span> Money</a>
                         <a class="nav-item nav-link" href="#"><span class="oi oi-bell" title="bell" aria-hidden="true"></span> Reminders</a>
