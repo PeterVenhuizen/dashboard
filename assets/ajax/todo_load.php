@@ -16,7 +16,7 @@
         $done_count = 0;
         
 		try {
-            $stmt = $db->prepare("SELECT * FROM todo_items WHERE list_id = :list_id ORDER BY added_on DESC");
+            $stmt = $db->prepare("SELECT * FROM todo_items WHERE list_id = :list_id ORDER BY done, added_on DESC");
             $stmt->execute(array(':list_id' => $list_id));
 		} catch (PDOException $ex) { }
         if ($stmt->rowCount() > 0) {
