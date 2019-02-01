@@ -1,6 +1,7 @@
 <?php require_once('functions.php'); ?>
 
-        <nav class="navbar navbar-expand-sm navbar-light" style="background-color: <?php echo $colors[array_rand($colors)]; ?>;">
+        <!--<nav class="navbar navbar-expand-sm navbar-light" style="background-color: <?php echo $colors[array_rand($colors)]; ?>;">-->
+        <nav class="navbar navbar-expand-sm navbar-light" id="main-navbar">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

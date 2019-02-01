@@ -1,33 +1,16 @@
 <?php
     require_once('../config.php');
-	require_once('../../functions.php');
+	//require_once('../../functions.php');
 
-    if (isset($_POST['tags'])) {
+    if (isset($_POST['tags']) && isset($_POST['colors'])) {
         
         // Add tags to db
         $tags = explode(';', $_POST['tags']);
+        $colors = $_POST['colors'];
         
-        // Remove used tags and colors
-        try {
-            $stmt = $db->prepare("SELECT * FROM tags");
-            $stmt->execute();
-        } catch (PDOException $ex) { die(); }
-        if ($stmt->rowCount() > 0) {
-            foreach ($stmt as $row) {
-                
-                // Remove color
-                if (in_array($row['color'], $colors)) { unset($colors[array_search($row['color'], $colors)]); }
-                
-                // Remove tags
-                if (in_array($row['tag'], $tags)) { unset($tags[array_search($row['tag'], $tags)]); }
-                
-            }
-        }
-        
-        // Add the remaining new tags
-        foreach ($tags as $tag) {
-            $query = "INSERT INTO tags (tag, color) VALUES (:tag, :color)";
-            $query_params = array(':tag' => $tag, ':color' => $colors[array_rand($colors)] );
+        for ($i = 0; $i < sizeof($tags); $i++) {
+            $query = "INSERT IGNORE INTO tags (tag, color) VALUES (:tag, :color)";
+            $query_params = array(':tag' => $tags[$i], ':color' => $colors[$i]);
             try {
                 $stmt = $db->prepare($query);
                 $stmt->execute($query_params);

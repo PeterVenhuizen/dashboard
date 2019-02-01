@@ -206,8 +206,9 @@
         <script src="bootstrap4-offline-docs-master/dist/js/bootstrap.min.js"></script>
         <link href="summernote/dist/summernote-bs4.css" rel="stylesheet">
         <script src="summernote/dist/summernote-bs4.js"></script>
+        <script src="assets/js/general.js"></script>
         <script>
-            
+
             // NOTE DISPLAY
             // View single
             $(document).on('click', '.note-header', function() {
@@ -312,22 +313,15 @@
                 });
             });
             
-            function rgb2hex(rgb){
-                var regexp = /^rgb\((\d+),\s+(\d+),\s+(\d+)\)$/g,
-                    groups = regexp.exec(rgb);
-                return '#' + 
-                    ('0' + parseInt(groups[1],10).toString(16)).slice(-2) +
-                    ('0' + parseInt(groups[2],10).toString(16)).slice(-2) +
-                    ('0' + parseInt(groups[3],10).toString(16)).slice(-2);
-            }
-            
             // Add a tag
             $(document).on('click', '#addTag', function() {
 
                 // Get the tag
                 var new_tag = $('#newTag').val(),
                     active_tags = jQuery.map(jQuery('.current-tag'), function(element) { return jQuery(element).attr('tag'); }),
-                    existing_tags = jQuery.map(jQuery('#notes-sidebar .tag-category'), function(element) { return jQuery(element).attr('tag'); });
+                    existing_tags = jQuery.map(jQuery('#notes-sidebar .tag-category'), function(element) { return jQuery(element).attr('tag'); }),
+                    used_colors = jQuery.map(jQuery('#notes-sidebar .tag-category'), function(element) { return css_rgb2hex(jQuery(element).css('backgroundColor')); });
+                console.log(used_colors);
 
                 // Check if the tag isn't empty and isn't already in the active tags
                 if (new_tag.length > 0 && !active_tags.includes(new_tag)) {
@@ -337,7 +331,11 @@
                         var tag_color = rgb2hex($('.tag-category[tag="'+new_tag+'"]').css('backgroundColor'));
                         $('#noteTags').append('<button type="button" class="btn current-tag" tag="'+new_tag+'" style="background-color: '+tag_color+'">'+new_tag+' <span class="oi oi-circle-x delete-tag"></span></button>');
                     } else {
-                        $('#noteTags').append('<button type="button" class="btn current-tag" tag="'+new_tag+'">'+new_tag+' <span class="oi oi-circle-x delete-tag"></span></button>');
+                        var random_color = getRandomPastelHEX();
+                        while (used_colors.includes(random_color)) {
+                            random_color = getRandomPastelHEX();
+                        }
+                        $('#noteTags').append('<button type="button" class="btn current-tag" tag="'+new_tag+'" style="background-color: '+random_color+'">'+new_tag+' <span class="oi oi-circle-x delete-tag"></span></button>');
                     }
 
                     // Empty input field
@@ -358,6 +356,7 @@
             $(document).on('click', '#create_note, #edit_note', function(e) {
                 var topic = $('#noteTopic').val(),
                     tags = $('.current-tag').map(function() { return $(this).attr('tag'); }).get().join(';'),
+                    colors = jQuery.map(jQuery('.current-tag'), function(element) { return css_rgb2hex(jQuery(element).css('backgroundColor')); }),
                     note = $('#summernote').summernote('code');
                 
                 // Check if topic was given
@@ -391,7 +390,7 @@
                 }
 
                 // Update tags
-                $.post("assets/ajax/notes_tags_update.php", { tags: tags });
+                $.post("assets/ajax/notes_tags_update.php", { tags: tags, colors: colors });
             });
             
             // Delete note
